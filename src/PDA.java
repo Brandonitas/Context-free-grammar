@@ -1,9 +1,11 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class PDA {
     String startingState;
-    Stack<String> stack = new Stack<>();
+    Stack<String> stack = new Stack<String>();
     State start;
     State loop;
     State accept;
@@ -46,8 +48,52 @@ public class PDA {
     }
 
     public boolean run(String s){
+        State current = start;
+        stack = new Stack<String>();
+        Queue<Character> tape = new LinkedList<Character>();
 
-        return true;
+        for(char c:s.toCharArray()){
+            tape.add(c);
+        }
+        //
+        Steps:
+        while(!current.name.equals("accept")){
+            if(current.name.equals("start")){
+                current=start.transitions.get(0).run(tape,stack);
+            }else{
+
+                if(stack.peek().equals(stack.peek().toLowerCase())){
+                    boolean found=false;
+                    for(PDATransition transition: PDATransition.terminalTransitions(current.transitions)){
+                        if(tape.peek().equals(transition.read)){
+                            if(stack.peek().equals(transition.pop)){
+                                current=transition.run(tape,stack);
+                                found = true;
+                                break;
+                            }
+
+                        }
+                    }
+                    if(!found){
+                        break Steps;
+                    }
+                }else {
+                    boolean found = false;
+                    //Buscar tran que nos sirve
+                    for(PDATransition transition: PDATransition.usefulTransitions(current.transitions,stack.peek(),String.valueOf(tape.peek()))){
+                    //EVALUAMOS LAS POSIBLES
+
+
+                    }
+                    if(!found){
+                        break Steps;
+                    }
+                }
+
+
+            }
+        }
+        return current.name.equals("accept");
     }
 
 
