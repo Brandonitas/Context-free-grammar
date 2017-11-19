@@ -54,11 +54,14 @@ public class PDATransition {
             q.remove();
         }
         if(!push.equals("\u03BB")){
-            s.push(push);
+            for(char it:push.toCharArray()){
+                s.push(String.valueOf(it));
+            }
         }
 
         return destination;
     }
+
 
     public static ArrayList<PDATransition> terminalTransitions(ArrayList<PDATransition> input){
         ArrayList<PDATransition> res = new ArrayList<PDATransition>();
@@ -74,9 +77,9 @@ public class PDATransition {
         ArrayList<PDATransition> res = new ArrayList<PDATransition>();
         for(PDATransition pdaTransition:input){
             if(pdaTransition.pop.equals(target)){
-                if(Character.isLowerCase(pdaTransition.push.charAt(0))&&String.valueOf(pdaTransition.push.charAt(0)).equals(peek)){
+                if(Character.isLowerCase(pdaTransition.push.charAt(0))&&String.valueOf(pdaTransition.push.charAt(0)).equals(peek)){ //SI LO QUE TENGO QUE SACAR DE LA TRANSI ES UN TERMIAL TIENE QUE SER IGUAL A LO QUE VOY A LEER DEL TAPE
                     res.add(pdaTransition);
-                }else if(!Character.isLowerCase(pdaTransition.push.charAt(0))){
+                }else if(!Character.isLowerCase(pdaTransition.push.charAt(0))){//SI LO QUE TENGO QUE METER ES UN NONTERMIAL ENTRA
                     res.add(pdaTransition);
                 }
 
@@ -85,4 +88,11 @@ public class PDATransition {
         return res;
 
     }
+
+    @Override
+    public String toString() {
+        return "( "+pop+", "+push+" )";
+    }
+
+
 }

@@ -27,9 +27,11 @@ public class CFG {
 
         PDA pda = new PDA(initial, lista, nonterminal,terminal);
 
-
-
-
+        if(pda.run(example)){
+            System.out.println("Accepted");
+        }else{
+            System.out.println("Not accepted");
+        }
 
 
     }
