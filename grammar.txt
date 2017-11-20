@@ -1,11 +1,11 @@
 S,A,B
 a,b
 S
-abbbb
+aaaaaabbbbb
 S->AbB
 S->bbS
 A->bAb
 A->a
-B->b
-B->AaA
 B->bBB
+B->AaA
+B->b

@@ -46,6 +46,10 @@ public class PDATransition {
         }
     }
 
+    public PDATransition(String read){
+        this.read = read;
+    }
+
     public State run(Queue<Character> q, Stack<String> s){
         if(!pop.equals("\u03BB")){
             s.pop();
@@ -73,20 +77,40 @@ public class PDATransition {
         return res;
     }
 
-    public static ArrayList<PDATransition> usefulTransitions(ArrayList<PDATransition> input, String target, String peek){
+    public static ArrayList<PDATransition> usefulTransitions(ArrayList<PDATransition> input, Stack<String> stack, Queue<Character> tape){
         ArrayList<PDATransition> res = new ArrayList<PDATransition>();
         for(PDATransition pdaTransition:input){
-            if(pdaTransition.pop.equals(target)){
-                if(Character.isLowerCase(pdaTransition.push.charAt(0))&&String.valueOf(pdaTransition.push.charAt(0)).equals(peek)){ //SI LO QUE TENGO QUE SACAR DE LA TRANSI ES UN TERMIAL TIENE QUE SER IGUAL A LO QUE VOY A LEER DEL TAPE
+            if(pdaTransition.pop.equals(stack.peek())){
+                if((Character.isLowerCase(pdaTransition.push.charAt(0)))&&(String.valueOf(pdaTransition.push.charAt(0)).equals(String.valueOf(tape.peek())))&&(works(tape,pdaTransition))){ //SI LO QUE TENGO QUE SACAR DE LA TRANSI ES UN TERMIAL TIENE QUE SER IGUAL A LO QUE VOY A LEER DEL TAPE
                     res.add(pdaTransition);
-                }else if(!Character.isLowerCase(pdaTransition.push.charAt(0))){//SI LO QUE TENGO QUE METER ES UN NONTERMIAL ENTRA
+                }else if((!Character.isLowerCase(pdaTransition.push.charAt(0)))&&(works(tape,pdaTransition))){//SI LO QUE TENGO QUE METER ES UN NONTERMIAL ENTRA
                     res.add(pdaTransition);
                 }
 
             }
         }
         return res;
+    }
 
+    public static boolean works(Queue<Character> tape, PDATransition trans){
+        boolean hasTerminals=false;
+        for (char peek:trans.push.toCharArray()){
+            if(Character.isLowerCase(peek)){
+                hasTerminals=true;
+            }
+        }
+        if (hasTerminals) {
+            for (char cha : tape) {
+                for (char peek : trans.push.toCharArray()) {
+                    if (cha==peek) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }else {
+            return true;
+        }
     }
 
     @Override
