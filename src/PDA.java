@@ -7,10 +7,12 @@ public class PDA {
     State loop;
     State accept;
     ArrayList<State> states = new ArrayList<State>();
+    ArrayList<String> nonterminal = new ArrayList<>();
 
     //
     public PDA(String startingState, ArrayList<CFGTransition> transitions, ArrayList<String> nonterminal, ArrayList<String> terminal) {
         //pasar de mi gramatica a un PDA
+        this.nonterminal=nonterminal;
         loop = new State("loop");
         this.startingState = startingState;
         //a cada nonterminal le agrego sus transiciones correspondientes
@@ -62,6 +64,16 @@ public class PDA {
             if (current.name.equals("start")) {
                 //Cambio de start a loop y meto mi S al stack
                 current = start.transitions.get(0).run(tape, stack);
+                //Imprimir la primera
+                String res="(";
+                for (char c:tape) {
+                    res+=c;
+                }
+                res+=",";
+                for (int i=stack.size();i>0;i--) {
+                    res+=stack.get(i-1);
+                }
+                System.out.print(res+")->");
             } else {
                 if (stack.isEmpty() && tape.isEmpty()) {
                     current = accept;
