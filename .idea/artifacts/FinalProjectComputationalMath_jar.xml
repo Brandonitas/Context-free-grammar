@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="FinalProjectComputationalMath:jar">
+    <output-path>$PROJECT_DIR$/classes/artifacts/FinalProjectComputationalMath_jar</output-path>
+    <root id="archive" name="FinalProjectComputationalMath.jar">
+      <element id="module-output" name="FinalProjectComputationalMath" />
+    </root>
+  </artifact>
+</component>
