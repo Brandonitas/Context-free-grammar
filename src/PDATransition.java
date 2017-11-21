@@ -89,8 +89,17 @@ public class PDATransition {
                 //si no es terminal debe de contener al menos un terminal de los que tengo en mi tape
                 }else if((!Character.isLowerCase(pdaTransition.push.charAt(0)))&&(works(tape,pdaTransition))){//SI LO QUE TENGO QUE METER ES UN NONTERMIAL ENTRA
                     res.add(pdaTransition);
+                }else{
+                    //Si son puros nonterminals
+                    //En caso que no tenga terminales en el top of the stack, todos los caracteres deben ser nonterminals
+                    boolean accept=false;
+                    for (char it:pdaTransition.push.toCharArray()){
+                        if(Character.isUpperCase(it)){
+                            accept=true&&accept;
+                        }
+                    }
+                    res.add(pdaTransition);
                 }
-
             }
         }
         return res;

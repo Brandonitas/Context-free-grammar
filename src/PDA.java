@@ -134,9 +134,10 @@ public class PDA {
                         }
 
                         Queue<Character> newTape = new LinkedList<Character>();
+
                         for (char c : tape) {
                             //si mi tengo solo un caracter en mi transicion
-                            if(Character.isLowerCase(transition.push.charAt(0))&&transition.push.length()==1){
+                            if (Character.isLowerCase(transition.push.charAt(0)) && transition.push.length() == 1) {
                                 newTape.add(c);
                                 break;
                             }
@@ -148,17 +149,18 @@ public class PDA {
                                 //agrego al nuevo tape hasta que sea igual al caracter por donde voy a partir
                                 if (!(String.valueOf(c).equals(stack1.peek()))) {
                                     newTape.add(c);//SOLO CARACTERES QUE VAN AL ARBOL DE ESE LADO, ANTES DE MI TERMINAL
-                                }else{
+                                } else {
                                     //si leo un caracter igual al que uso para partir, debe ser la cantidad que mi transicion necesita
-                                    if(cont>0){
+                                    if (cont > 0) {
                                         newTape.add(c);
                                         cont--;
-                                    }else {
+                                    } else {
                                         break;
                                     }
                                 }
                             }
                         }
+
 
                         ArrayList<PDATransition> targetTransitions = expandTree(newTape, stack2, transition);//BUSCA LA RAMA QUE TERMINE Y ME REGRESA LAS TRANSICIONES QUE HACE PARA TERMINAR
 
@@ -190,11 +192,9 @@ public class PDA {
     }
 
     public ArrayList<PDATransition> expandTree(Queue<Character> tape, Stack<String> stack, PDATransition pdaTransition) {
-        State current = pdaTransition.run(tape, stack);
-
         ArrayList<PDATransition> myTransitions = new ArrayList<PDATransition>();//LISTA DE POSIBLES TRANSICIONES QUE LLEGA AL FINAL
+        State current = pdaTransition.run(tape, stack);
         myTransitions.add(pdaTransition);
-
 
         while ((!tape.isEmpty() && !stack.isEmpty()) && (stack.size() <= tape.size())) {
             if (stack.peek().equals(stack.peek().toLowerCase())) {
