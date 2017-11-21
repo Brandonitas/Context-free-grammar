@@ -1,7 +1,7 @@
 S,A,B
 a,b
 S
-aaaaaabbbbb
+abb
 S->AbB
 S->bbS
 A->bAb

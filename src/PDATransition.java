@@ -30,11 +30,11 @@ public class PDATransition {
 
     }
 
-    public PDATransition(State origin, State destination){
+    public PDATransition(State origin, State destination, String starting){
         if(origin.name.equals("start")){
             read = "\u03BB"; //lambda
             pop = "\u03BB"; //lambda
-            push = "S";
+            push = starting;
             this.origin=origin;
             this.destination=destination;
         }else{
@@ -78,11 +78,15 @@ public class PDATransition {
     }
 
     public static ArrayList<PDATransition> usefulTransitions(ArrayList<PDATransition> input, Stack<String> stack, Queue<Character> tape){
+        //busca en todas las transiciones
         ArrayList<PDATransition> res = new ArrayList<PDATransition>();
         for(PDATransition pdaTransition:input){
+            //lo que tengo encima de mi stack es igual a lo que va a leer del stack la transicion
             if(pdaTransition.pop.equals(stack.peek())){
+                //si es terminal tiene que ser el mismo que tengo en mi tape
                 if((Character.isLowerCase(pdaTransition.push.charAt(0)))&&(String.valueOf(pdaTransition.push.charAt(0)).equals(String.valueOf(tape.peek())))&&(works(tape,pdaTransition))){ //SI LO QUE TENGO QUE SACAR DE LA TRANSI ES UN TERMIAL TIENE QUE SER IGUAL A LO QUE VOY A LEER DEL TAPE
                     res.add(pdaTransition);
+                //si no es terminal debe de contener al menos un terminal de los que tengo en mi tape
                 }else if((!Character.isLowerCase(pdaTransition.push.charAt(0)))&&(works(tape,pdaTransition))){//SI LO QUE TENGO QUE METER ES UN NONTERMIAL ENTRA
                     res.add(pdaTransition);
                 }
@@ -93,6 +97,7 @@ public class PDATransition {
     }
 
     public static boolean works(Queue<Character> tape, PDATransition trans){
+        //busca si en mi tape tengo al menos un terminal que tiene la transicion
         boolean hasTerminals=false;
         for (char peek:trans.push.toCharArray()){
             if(Character.isLowerCase(peek)){
