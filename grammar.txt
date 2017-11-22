@@ -1,13 +1,14 @@
 S,A,B,C
 a,b
 S
-bba
+b
 S->AbC
 S->bC
 A->BB
 A->aA
-A->b
-B->aSa
+A->Cb
 B->b
+B->aSa
+C->λ
 C->CA
 C->a

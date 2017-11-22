@@ -21,6 +21,7 @@ public class PDATransition {
         }
     }
 
+    //lambda,a,a
     public PDATransition(String terminal, State origin){
         read = terminal;
         pop=terminal;
@@ -30,6 +31,7 @@ public class PDATransition {
 
     }
 
+    //start to loop & loop to accept
     public PDATransition(State origin, State destination, String starting){
         if(origin.name.equals("start")){
             read = "\u03BB"; //lambda
@@ -83,8 +85,12 @@ public class PDATransition {
         for(PDATransition pdaTransition:input){
             //lo que tengo encima de mi stack es igual a lo que va a leer del stack la transicion
             if(pdaTransition.pop.equals(stack.peek())){
+
+                if(pdaTransition.push.equals("\u03BB")&&tape.isEmpty()){
+                    res.add(pdaTransition);
+                }
                 //si es terminal tiene que ser el mismo que tengo en mi tape
-                if((Character.isLowerCase(pdaTransition.push.charAt(0)))&&(String.valueOf(pdaTransition.push.charAt(0)).equals(String.valueOf(tape.peek())))&&(works(tape,pdaTransition))){ //SI LO QUE TENGO QUE SACAR DE LA TRANSI ES UN TERMIAL TIENE QUE SER IGUAL A LO QUE VOY A LEER DEL TAPE
+                else if((Character.isLowerCase(pdaTransition.push.charAt(0)))&&(String.valueOf(pdaTransition.push.charAt(0)).equals(String.valueOf(tape.peek())))&&(works(tape,pdaTransition))){ //SI LO QUE TENGO QUE SACAR DE LA TRANSI ES UN TERMIAL TIENE QUE SER IGUAL A LO QUE VOY A LEER DEL TAPE
                     res.add(pdaTransition);
                 //si no es terminal debe de contener al menos un terminal de los que tengo en mi tape
                 }else if((!Character.isLowerCase(pdaTransition.push.charAt(0)))&&(works(tape,pdaTransition))){//SI LO QUE TENGO QUE METER ES UN NONTERMIAL ENTRA
@@ -125,6 +131,15 @@ public class PDATransition {
         }else {
             return true;
         }
+    }
+
+    public static boolean hasLambdaTransitions(ArrayList<PDATransition> input,  Stack<String> stack){
+        for (PDATransition transition : input) {
+            if (Character.isUpperCase(transition.pop.charAt(0)) && transition.pop.equals(stack.peek().toString()) && transition.push.equals("\u03BB")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
